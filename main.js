@@ -33,3 +33,18 @@ console.log(str.match(regexp3));
 // ['the', 'The', 'the']
 
 // 결론, 기본적으로 우리가 원하는 패턴을 적어주고 그 패턴으로 검색을 어떻게 할 것인지에 대한 기본적인 옵션을 추가해주면 됨.
+
+const regexp4 = /fox/gi;
+console.log(regexp4.test(str));
+// true
+
+const regexp5 = /Seungmin/gi;
+console.log(regexp5.test(str));
+// false
+
+console.log(str.replace(regexp4, "AAA"));
+// 010-1234-5678
+// thednjfht@gmail.com
+// http://www.omdbapi.com/?apikey=56d328e5&s=frozen
+// The quick brown AAA jumps over the lazy dog.
+// abbcccdddd
