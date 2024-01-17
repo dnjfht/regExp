@@ -1,9 +1,10 @@
 const str = `
 010-1234-5678
 thednjfht@gmail.com
-http://www.omdbapi.com/?apikey=56d328e5&s=frozen
+https://www.omdbapi.com/?apikey=56d328e5&s=frozen
 The quick brown fox jumps over the lazy dog.
 abbcccdddd
+http://localhost:1234
 `;
 
 const regexp = new RegExp("the", "");
@@ -45,9 +46,10 @@ console.log(regexp5.test(str));
 console.log(str.replace(regexp4, "AAA"));
 // 010-1234-5678
 // thednjfht@gmail.com
-// http://www.omdbapi.com/?apikey=56d328e5&s=frozen
+// https://www.omdbapi.com/?apikey=56d328e5&s=frozen
 // The quick brown AAA jumps over the lazy dog.
 // abbcccdddd
+// http://localhost:1234
 
 console.log(str.match(/\./gi));
 // ['.', '.', '.', '.']
@@ -68,3 +70,65 @@ console.log(str.match(/\.$/gim));
 // ['.']
 
 // 그 대신 여러 줄을 놓고 판단할 수 있도록 플래스 m을 추가해주면, 5번째 줄 끝에 있는 .을 배열로 반환하게 됨.
+
+console.log(str.match(/^t/gm));
+// ['t']
+
+// 각 줄의 시작점에 있는 t를 찾아서 배열로 반환.
+// 여기 플래그 i를 추가하면 소문자, 대문자 가리지 않고 각 줄의 시작점에 있는 t를 찾아서 배열로 반환.
+
+console.log(str.match(/^t/gim));
+// ['t', 'T']
+
+console.log(str.match(/./g));
+// ['0', '1', '0', '-', '1', '2', '3', '4', '-', '5', '6', '7', '8', 't', 'h', 'e', 'd', 'n', 'j', 'f', 'h', 't', '@', 'g', 'm', 'a', 'i', 'l', '.', 'c', 'o', 'm', 'h', 't', 't', 'p', ':', '/', '/', 'w', 'w', 'w', '.', 'o', 'm', 'd', 'b', 'a', 'p', 'i', '.', 'c', 'o', 'm', '/', '?', 'a', 'p', 'i', 'k', 'e', 'y', '=', '5', '6', 'd', '3', '2', '8', 'e', '5', '&', 's', '=', 'f', 'r', 'o', 'z', 'e', 'n', 'T', 'h', 'e', ' ', 'q', 'u', 'i', 'c', 'k', ' ', 'b', 'r', 'o', 'w', 'n', ' ', 'f', 'o', 'x', ' ', …]
+// 문자 데이터에 모든 각각의 글자들과 일치해서 그것을 배열로 반환.
+
+console.log(str.match(/http/g));
+// ['http']
+
+console.log(str.match(/h..p/g));
+// ['http']
+
+// 이렇게 http의 tt 대신 ..를 넣어줘도 똑같이 http 배열이 나오게 됨.
+// h로 시작하여 p로 끝나는 내용을 찾는 것임.
+// 만약에 str 변수의 문자열 마지막 줄에 hxyp를 추가하면 ['http', 'hxyp'] 배열을 반환하게 됨.
+
+console.log(str.match(/fox|dog/g));
+// ['fox', 'dog']
+
+// 두 개를 검색하고 싶은 경우에는 첫 번째 단어 뒤에 vertical bar(|)를 적어주고, 그 다음에 다음 단어를 명시하면 됨.
+
+console.log(str.match(/https/g));
+// ['https']
+
+console.log(str.match(/https?/g));
+// ['https', 'http']
+
+// 그런데, https 문자열 뒤에 ? 플래그를 붙이면, s가 없거나 s가 있을 때 모두를 찾아서 배열로 반환.
+
+console.log(str.match(/d{2}/));
+// d가 두 개 연속으로 일치하는 것을 하나 찾아서 배열로 만듦.
+// ['dd', index: 136, input: '\n010-1234-5678\nthednjfht@gmail.com\nhttps://www.omd…r the lazy dog.\nabbcccdddd\nhttp://localhost:1234\n', groups: undefined]
+
+console.log(str.match(/d{2}/g));
+// ['dd', 'dd']
+
+console.log(str.match(/d{2,}/g));
+// d가 2개 이상의 연속으로 일치하는 것을 모두 찾아서 배열로 만듦.
+// ['dddd']
+
+console.log(str.match(/d{2,3}/g));
+// d가 2개 이상, 3개 이하의 연속으로 일치하는 것을 모두 찾아서 배열로 만듦.
+// ['ddd']
+
+console.log(str.match(/\w{2,3}/g));
+// \w 이 부분은 기본적으로 숫자를 포함한 영어 알파벳을 의미함.
+// 숫자를 포함한 영어 알파벳이 2개 이상, 3개 이하 연속으로 일치하는 것을 모두 찾아서 배열로 만듦.
+// ['010', '123', '567', 'the', 'dnj', 'fht', 'gma', 'il', 'com', 'htt', 'ps', 'www', 'omd', 'bap', 'com', 'api', 'key', '56d', '328', 'e5', 'fro', 'zen', 'The', 'qui', 'ck', 'bro', 'wn', 'fox', 'jum', 'ps', 'ove', 'the', 'laz', 'dog', 'abb', 'ccc', 'ddd', 'htt', 'loc', 'alh', 'ost', '123']
+
+console.log(str.match(/\b\w{2,3}\b/g));
+// 기본적으로 숫자를 포함한 영어 알파벳이 아닌 경계를 만들어줌.
+// 숫자를 포함한 영어 알파벳이 2개 이상, 3개 이하 연속으로 일치하는 것을 모두 찾으려고 하는데,
+// 그 앞뒤로 일반적인 알파벳과 숫자가 아닌 부분의 경계를 만듦.
+// ['010', 'com', 'www', 'com', 'The', 'fox', 'the', 'dog']
